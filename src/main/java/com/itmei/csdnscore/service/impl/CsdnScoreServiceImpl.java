@@ -4,6 +4,8 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import com.itmei.csdnscore.model.ArticleDetails;
 import com.itmei.csdnscore.model.ArticleResponse;
 import com.itmei.csdnscore.model.Score;
@@ -69,13 +71,30 @@ public class CsdnScoreServiceImpl implements CsdnScoreService {
 
         String body = HttpUtil.createPost(getArticlesScoreUrl).headerMap(headers, true)
                 .body("url=" + url).execute().body();
-        if (ObjectUtil.isNotEmpty(body)){
+        if (ObjectUtil.isNotEmpty(body)) {
             ScoreResponse scoreResponse = JSONUtil.toBean(body, ScoreResponse.class);
-            if (ObjectUtil.isNotEmpty(scoreResponse)){
+            if (ObjectUtil.isNotEmpty(scoreResponse)) {
                 return scoreResponse.getData();
             }
         }
         return null;
+    }
+
+    @Override
+    public void exportExcel(String filePath, List<Map<String, Object>> rows) {
+        // 通过工具类创建writer
+        ExcelWriter writer = ExcelUtil.getWriter(filePath);
+        // 默认的，未添加alias的属性也会写出，如果想只写出加了别名的字段，可以调用此方法排除之
+        writer.setOnlyAlias(true);
+        // 合并单元格后的标题行，使用默认标题样式
+        Integer columnTotal = rows.get(0).size() - 1;
+        writer.merge(columnTotal, "CSDN文章质量分");
+        // 一次性写出内容，使用默认样式，强制输出标题
+        writer.write(rows, true);
+        // 设置第一列的自动调整列宽
+        writer.autoSizeColumn(0, true);
+        // 关闭writer，释放内存
+        writer.close();
     }
 }
 
