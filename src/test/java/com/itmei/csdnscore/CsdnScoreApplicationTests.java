@@ -24,7 +24,7 @@ class CsdnScoreApplicationTests {
     void articleDetailsScore() {
         List<Map<String, Object>> rows = new ArrayList<>();
 
-        List<ArticleDetails> allTheArticles = scoreService.getAllTheArticles("qq_45502336", "blog");
+        List<ArticleDetails> allTheArticles = scoreService.getAllTheArticles("SJshenjian", "blog");
         for (ArticleDetails articleDetails : allTheArticles) {
 
             Score articlesScore = scoreService.getArticlesScore(articleDetails.getUrl());
