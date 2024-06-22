@@ -18,13 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @Author itmei
- * @Date 2023/9/17 14:50
- * @description: csdn质量分
- * @Title: CsdnScoreServiceImpl
- * @Package com.itmei.csdnscore.service
- */
 @Service
 public class CsdnScoreServiceImpl implements CsdnScoreService {
     private final String getArticleUrl = "https://blog.csdn.net/community/home-api/v1/get-business-list";

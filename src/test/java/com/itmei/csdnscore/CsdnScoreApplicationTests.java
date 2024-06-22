@@ -40,8 +40,7 @@ class CsdnScoreApplicationTests {
             row.put("文章建议", articlesScore.getMessage());
             rows.add(row);
         }
-        File output = FileUtils.createFileDirectory("Excel\\" + File.separator);
-        String absolutePath = output.getAbsolutePath() + File.separator + File.separator + "CSDN文章分数" + DateUtil.currentSeconds() + ".xlsx";
+        String absolutePath =  "/home/shenjian/数据/CSDN文章分数" + DateUtil.currentSeconds() + ".xlsx";
         scoreService.exportExcel(absolutePath, rows);
     }
 
